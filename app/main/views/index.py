@@ -10,6 +10,7 @@ selected = lambda x: 1 if x else 0
 
 
 # pygpio = ctypes.cdll.LoadLibrary("/home/ubuntu/Documents/libgpio.so")
+pygpio = ctypes.cdll.LoadLibrary("/home/root/libgpio.so")
 
 
 def admin_login_req(func):
@@ -62,63 +63,63 @@ def change_password():
 
 
 @auth.route('/get/gpi/data', methods=["GET", "POST"])
-@admin_login_req
+# @admin_login_req
 def get_gpi_data():
-    # port_values = []
-    # for i in range(0, 8):
-    #     value = pygpio.gpi_get(i)
-    #     if value == 0 or value == 1:
-    #         port_values.append(str(value))
-    #     else:
-    #         pass
-    #
-    # result = {
-    #     "gpilist": [{"name": "gpi1", "value": port_values[0]}, {"name": "gpi2", "value": port_values[1]},
-    #                 {"name": "gpi3", "value": port_values[2]},
-    #                 {"name": "gpi4", "value": port_values[3]}, {"name": "gpi5", "value": port_values[4]},
-    #                 {"name": "gpi6", "value": port_values[5]},
-    #                 {"name": "gpi7", "value": port_values[6]}, {"name": "gpi8", "value": port_values[7]}]}
+    port_values = []
+    for i in range(0, 8):
+        value = pygpio.gpi_get(i)
+        if value == 0 or value == 1:
+            port_values.append(str(value))
+        else:
+            pass
+
     result = {
-        "gpilist": [{"name": "gpi1", "value": "0"}, {"name": "gpi2", "value": "1"}, {"name": "gpi3", "value": "1"},
-                    {"name": "gpi4", "value": "1"}, {"name": "gpi5", "value": "0"}, {"name": "gpi6", "value": "0"},
-                    {"name": "gpi7", "value": "1"}, {"name": "gpi8", "value": "0"}]}
+        "gpilist": [{"name": "gpi1", "value": port_values[0]}, {"name": "gpi2", "value": port_values[1]},
+                    {"name": "gpi3", "value": port_values[2]},
+                    {"name": "gpi4", "value": port_values[3]}, {"name": "gpi5", "value": port_values[4]},
+                    {"name": "gpi6", "value": port_values[5]},
+                    {"name": "gpi7", "value": port_values[6]}, {"name": "gpi8", "value": port_values[7]}]}
+    # result = {
+    #     "gpilist": [{"name": "gpi1", "value": "0"}, {"name": "gpi2", "value": "1"}, {"name": "gpi3", "value": "1"},
+    #                 {"name": "gpi4", "value": "1"}, {"name": "gpi5", "value": "0"}, {"name": "gpi6", "value": "0"},
+    #                 {"name": "gpi7", "value": "1"}, {"name": "gpi8", "value": "0"}]}
 
     return jsonify(result)
 
 
 @auth.route('/get/init/data', methods=["GET", "POST"])
-@admin_login_req
+# @admin_login_req
 def get_init_data():
-    # if pygpio.gpio_init() == 0:
-    #     port_values = []
-    #     for i in range(0, 8):
-    #         value = pygpio.gpi_get(i)
-    #         if value == 0 or value == 1:
-    #             port_values.append(str(value))
-    #         else:
-    #             pass
-    # result = {
-    #     "gpilist": [{"name": "gpi1", "value": port_values[0]}, {"name": "gpi2", "value": port_values[1]},
-    #                 {"name": "gpi3", "value": port_values[2]},
-    #                 {"name": "gpi4", "value": port_values[3]}, {"name": "gpi5", "value": port_values[4]},
-    #                 {"name": "gpi6", "value": port_values[5]},
-    #                 {"name": "gpi7", "value": port_values[6]}, {"name": "gpi8", "value": port_values[7]}],
-    #     "gpolist": [{"name": "gpo1", "value": "0"}, {"name": "gpo2", "value": "0"}, {"name": "gpo3", "value": "0"},
-    #                 {"name": "gpo4", "value": "0"}, {"name": "gpo5", "value": "0"}, {"name": "gpo6", "value": "0"},
-    #                 {"name": "gpo7", "value": "0"}, {"name": "gpo8", "value": "0"}]}
+    if pygpio.gpio_init() == 0:
+        port_values = []
+        for i in range(0, 8):
+            value = pygpio.gpi_get(i)
+            if value == 0 or value == 1:
+                port_values.append(str(value))
+            else:
+                pass
     result = {
-        "gpilist": [{"name": "gpi1", "value": "1"}, {"name": "gpi2", "value": "0"}, {"name": "gpi3", "value": "1"},
-                    {"name": "gpi4", "value": "0"}, {"name": "gpi5", "value": "1"}, {"name": "gpi6", "value": "0"},
-                    {"name": "gpi7", "value": "1"}, {"name": "gpi8", "value": "0"}],
-        "gpolist": [{"name": "gpo1", "value": "1"}, {"name": "gpo2", "value": "0"}, {"name": "gpo3", "value": "1"},
-                    {"name": "gpo4", "value": "0"}, {"name": "gpo5", "value": "1"}, {"name": "gpo6", "value": "0"},
-                    {"name": "gpo7", "value": "1"}, {"name": "gpo8", "value": "0"}]}
+        "gpilist": [{"name": "gpi1", "value": port_values[0]}, {"name": "gpi2", "value": port_values[1]},
+                    {"name": "gpi3", "value": port_values[2]},
+                    {"name": "gpi4", "value": port_values[3]}, {"name": "gpi5", "value": port_values[4]},
+                    {"name": "gpi6", "value": port_values[5]},
+                    {"name": "gpi7", "value": port_values[6]}, {"name": "gpi8", "value": port_values[7]}],
+        "gpolist": [{"name": "gpo1", "value": "0"}, {"name": "gpo2", "value": "0"}, {"name": "gpo3", "value": "0"},
+                    {"name": "gpo4", "value": "0"}, {"name": "gpo5", "value": "0"}, {"name": "gpo6", "value": "0"},
+                    {"name": "gpo7", "value": "0"}, {"name": "gpo8", "value": "0"}]}
+    # result = {
+    #     "gpilist": [{"name": "gpi1", "value": "1"}, {"name": "gpi2", "value": "0"}, {"name": "gpi3", "value": "1"},
+    #                 {"name": "gpi4", "value": "0"}, {"name": "gpi5", "value": "1"}, {"name": "gpi6", "value": "0"},
+    #                 {"name": "gpi7", "value": "1"}, {"name": "gpi8", "value": "0"}],
+    #     "gpolist": [{"name": "gpo1", "value": "1"}, {"name": "gpo2", "value": "0"}, {"name": "gpo3", "value": "1"},
+    #                 {"name": "gpo4", "value": "0"}, {"name": "gpo5", "value": "1"}, {"name": "gpo6", "value": "0"},
+    #                 {"name": "gpo7", "value": "1"}, {"name": "gpo8", "value": "0"}]}
 
     return jsonify(result)
 
 
 @auth.route('/update/gpo', methods=["GET", "POST"])
-@admin_login_req
+# @admin_login_req
 def update_gpo():
     # set_gpo = pygpio.gpo_set(1, 1)
     result = {"name": "gpo1", "value": "1"}
