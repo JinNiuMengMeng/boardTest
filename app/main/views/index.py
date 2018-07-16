@@ -29,7 +29,7 @@ def before_request():
 
 
 @auth.route('/', methods=["GET", "POST"])
-@admin_login_req
+# @admin_login_req
 def index():
     return render_template("index.html")
 
@@ -49,7 +49,7 @@ def login():
 
 
 @auth.route('/logout')
-@admin_login_req
+# @admin_login_req
 def logout():
     session.pop("admin", None)
     flash('您已退出')
@@ -57,7 +57,7 @@ def logout():
 
 
 @auth.route('/change_password')
-@admin_login_req
+# @admin_login_req
 def change_password():
     return redirect(url_for('auth.index'))
 
