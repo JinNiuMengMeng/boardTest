@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}86 ｜ 第 8 章
+{% block title %}开发板IO口测试{% endblock %}
+{% block page_content %}
+
+    <div class="page-header">
+        <h3>开发板GPIO口状态调试</h3>
+    </div>
+
+	<div class="container">
+		<div>
+			<h1>GPI</h1>
+			<div class="gpi-container"></div>
+		</div>
+		<div>
+			<h1>GPO</h1>
+			<div class="gpo-container"></div>
+		</div>
+	</div>
+
+{% endblock %}

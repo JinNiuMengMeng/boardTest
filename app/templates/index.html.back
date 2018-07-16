@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>demo</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='resource/bootstrap-3.3.7-dist/css/bootstrap.min.css') }}">
+	<link href="{{ url_for('static', filename='resource/bootstrap-switch-3.3.4/dist/css/bootstrap3/bootstrap-switch.min.css') }}" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+</head>
+<body>
+
+	<div class="container">
+		<div>
+			<h1>GPI</h1>
+			<div class="gpi-container"></div>
+		</div>
+		<div>
+			<h1>GPO</h1>
+			<div class="gpo-container"></div>
+		</div>
+	</div>
+
+
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+	<script src="{{ url_for('static', filename='resource/bootstrap-3.3.7-dist/js/bootstrap.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='resource/bootstrap-switch-3.3.4/dist/js/bootstrap-switch.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/index.js') }}"></script>
+
+	<script type="text/javascript">
+
+		demo.index.init({
+
+		})
+
+	</script>
+</body>
+</html>
