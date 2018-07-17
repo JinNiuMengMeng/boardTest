@@ -13,7 +13,7 @@
 		<form class="layui-form" action="">
 			<div class="layui-row page-container">
 				<div>
-					<button type="button" class="layui-btn layui-btn-normal">
+					<button type="button" class="layui-btn layui-btn-normal btn-reset">
 						重启
 					</button>
 				</div>
@@ -46,6 +46,8 @@
 			initUrl: 'http://192.168.40.231:8000/init',
 			updateGpiUrl: 'http://192.168.40.231:8000/get/gpi/data',
 			updateGpoUrl: 'http://192.168.40.231:8000/update/gpo',
+            resetUrl: 'http://192.168.40.231:8000/reboot',
+            loginPageUrl : 'http://192.168.40.231:8000/login',
 
             {#initUrl: 'http://192.168.50.6:8000/init',#}
 			{#updateGpiUrl: 'http://192.168.50.6:8000/get/gpi/data',#}

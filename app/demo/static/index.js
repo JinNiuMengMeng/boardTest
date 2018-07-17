@@ -16,7 +16,11 @@
                 isChecked = 1;
             }
           _updateGpo($(data.elem).attr('name'),isChecked,opts);
-        }); 
+        });
+
+        $('body').on('.btn-reset', function () {
+            _reset(opts);
+        })
     }
 
     // 获取初始数据
@@ -114,6 +118,23 @@
                     });
                 } else {
                     layer.msg('ok', {icon:1, time:1000})
+                }
+            }
+        })
+    }
+
+    // 重启
+    function _reset (opts) {
+        ajax({
+            url: opts.resetUrl,
+            data: {},
+            type: 'post',
+            done: function (err, data, res) {
+                if (err) {
+                    layer.msg(err.message, {icon: 2, time: 1000}, function () {
+                    });
+                } else {
+                    window.location.href = opts.loginPageUrl;
                 }
             }
         })
