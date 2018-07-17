@@ -18,7 +18,7 @@
           _updateGpo($(data.elem).attr('name'),isChecked,opts);
         });
 
-        $('body').on('.btn-reset', function () {
+        $('body').on('click', '.btn-reset', function () {
             _reset(opts);
         })
     }
