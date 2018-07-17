@@ -8,6 +8,7 @@ import ctypes
 from constants.errorCode import EC_GETGPI, EC_INIT, EC_SETGPO, EC_ARGS
 import os
 from constants.testPygpio import pygpio
+
 # pygpio = ctypes.cdll.LoadLibrary("/home/root/libgpio.so")
 
 selected = lambda x: 1 if x else 0

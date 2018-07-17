@@ -35,9 +35,9 @@
 
                     for (var i = 0; i < gpilist.length; i++) {
                         if (gpilist[i].value == 1) {
-                            $('.gpi-container').append('<input type="checkbox" name="'+gpilist[i].name+'" lay-skin="switch" lay-text="ON|OFF" checked disabled>');
+                            $('.gpi-container').append('<input type="checkbox" name="'+gpilist[i].name+'" lay-skin="switch" lay-text="ON|OFF" lay-filter="'+gpilist[i].name+'" checked disabled>');
                         } else {
-                            $('.gpi-container').append('<input type="checkbox" name="'+gpilist[i].name+'" lay-skin="switch" lay-text="ON|OFF" disabled>');
+                            $('.gpi-container').append('<input type="checkbox" name="'+gpilist[i].name+'" lay-skin="switch" lay-text="ON|OFF" lay-filter="'+gpilist[i].name+'" disabled>');
                         }
                     }
 
@@ -69,12 +69,12 @@
                     var gpilist = data;
                     for (var i = 0; i < gpilist.length; i++) {
                         if (gpilist[i].value == 1) {
-                            $("[name='"+gpilist[i].name+"']").attr('checked', 'checked');
+                            $("[name='"+gpilist[i].name+"']").prop('checked', 'checked');
                         } else {
-                            $("[name='"+gpilist[i].name+"']").removeAttr('checked');
+                            $("[name='"+gpilist[i].name+"']").prop('checked', false);
                         }
+                        form.render(gpilist[i].name);
                     }
-                    form.render();
                 } else {
                     layer.msg(err.message, {icon: 2, time: 1000}, function () {});
                 }
@@ -106,9 +106,9 @@
                     layer.msg(err.msg, {icon: 2, time: 1000}, function () {
                         if (value == 0) {
                             console.log(111);
-                            $('[name="'+name+'"]').attr('checked', 'checked');
+                            $('[name="'+name+'"]').prop('checked', 'checked');
                         } else {
-                            $('[name="'+name+'"]').removeAttr('checked');
+                            $('[name="'+name+'"]').prop('checked', false);
                         }
                         form.render();
                     });
