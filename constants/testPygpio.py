@@ -1,8 +1,12 @@
+import random
+
+
 class pygpio(object):
 
     @staticmethod
     def gpi_get(port):
-        return 0
+        values = [0, 1]
+        return random.choice(values)
 
     @staticmethod
     def gpio_init():
@@ -10,4 +14,4 @@ class pygpio(object):
 
     @staticmethod
     def gpo_set(portNum, gpoNum):
-        return gpoNum
+        return -1

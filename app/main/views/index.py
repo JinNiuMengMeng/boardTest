@@ -121,16 +121,18 @@ def get_init_data():
 @auth.route('/update/gpo', methods=["GET", "POST"])
 # @admin_login_req
 def update_gpo():
-    gpoNum = int(request.args.get("gpoNum"))
-    portNum = int(request.args.get("portNum"))
-    if gpoNum and portNum:
+    gpoNum = request.args.get("gpoNum")
+    portNum = request.args.get("portNum")
+    if gpoNum != None and portNum != None:
+        gpoNum = int(gpoNum)
+        portNum = int(portNum[-1]) - 1
         set_gpo = pygpio.gpo_set(portNum, gpoNum)
         if set_gpo == 0 or set_gpo == 1:
             gpiNum = pygpio.gpi_get(portNum)
             if gpiNum == 0 or gpiNum == 1:
                 data = {"name": portNum, "value": gpiNum}
                 success = True
-                error_code = EC_GETGPI
+                error_code = 0
                 message = ""
             else:
                 data = ""

@@ -1,0 +1,9 @@
+.login-container{
+	width:500px;
+	height:300px;
+	position:fixed;
+	left:50%;
+	top:50%;
+	margin-top:-150px;
+	margin-left:-250px;
+}

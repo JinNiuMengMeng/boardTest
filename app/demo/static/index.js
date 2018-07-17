@@ -1,95 +1,131 @@
 (function (win) {
+    var form;
 
-    // 获取初始数据
-    function _initData () {
+    // 初始化layui-form
+    function _initForm () {
+        layui.use('form', function(){
+          form = layui.form;
+        });
+    }
 
-        $.ajax({
-            url: 'http://127.0.0.1:8000/get/init/data',
-            type: 'POST',
-            dataType: 'json',
-            complete: function (data) {
-                var gpilist = JSON.parse(data.responseText).gpilist;
-                var gpolist = JSON.parse(data.responseText).gpolist;
-
-                for (var i = 0; i < gpilist.length; i++) {
-                    if (gpilist[i].value == 1) {
-                        $('.gpi-container').append('<input type="checkbox" name="'+gpilist[i].name+'" checked disabled>');
-                        $("[name='"+gpilist[i].name+"']").bootstrapSwitch();
-                    } else {
-                        $('.gpi-container').append('<input type="checkbox" name="'+gpilist[i].name+'" disabled>');
-                        $("[name='"+gpilist[i].name+"']").bootstrapSwitch();
-                    }
-                }
-
-                for (var i = 0; i < gpolist.length; i++) {
-                    var gpoName = gpolist[i].name;
-                    if (gpolist[i].value == 1) {
-                        $('.gpo-container').append('<input type="checkbox" name="'+gpolist[i].name+'" checked >');
-                        $("[name='"+gpolist[i].name+"']").bootstrapSwitch({
-                            onSwitchChange:function(event,state){
-                                _updateGpo(gpoName, state);
-                            }
-                        });
-                    } else {
-                        $('.gpo-container').append('<input type="checkbox" name="'+gpolist[i].name+'" >');
-                        $("[name='"+gpolist[i].name+"']").bootstrapSwitch({
-                            onSwitchChange:function(event,state){  
-                                _updateGpo(gpoName, state)  
-                            }
-                        });
-                    }
-                }
+    // 绑定事件
+    function _bindEvent (opts) {
+        form.on('switch', function(data){
+            var isChecked = 0;
+            if (data.elem.checked) {
+                isChecked = 1;
             }
+          _updateGpo($(data.elem).attr('name'),isChecked,opts);
         }); 
     }
 
-    // 3s动态更新GPI数据
-    function _updateGpi () {
-        setInterval(function () {
-            $.ajax({
-                url: 'http://127.0.0.1:8000/get/gpi/data',
-                type: 'POST',
-                dataType: 'json',
-                complete: function (data) {
-                    var gpilist = JSON.parse(data.responseText).gpilist;
+    // 获取初始数据
+    function _initData (opts) {
+        ajax({
+            url: opts.initUrl,
+            data: {},
+            type: 'post',
+            done: function (err, data, res) {
+                if (err) {
+                    layer.msg(err.message, {icon: 2, time: 1000}, function () {
+                    });
+                } else {
+                    var gpilist = data.gpilist;
+                    var gpolist = data.gpolist;
+
                     for (var i = 0; i < gpilist.length; i++) {
                         if (gpilist[i].value == 1) {
-                            $("[name='"+gpilist[i].name+"']").bootstrapSwitch('disabled',false);
-                            $("[name='"+gpilist[i].name+"']").bootstrapSwitch('state', true);
-                            $("[name='"+gpilist[i].name+"']").bootstrapSwitch('disabled',true);
+                            $('.gpi-container').append('<input type="checkbox" name="'+gpilist[i].name+'" lay-skin="switch" lay-text="ON|OFF" checked disabled>');
                         } else {
-                            $("[name='"+gpilist[i].name+"']").bootstrapSwitch('disabled',false);
-                            $("[name='"+gpilist[i].name+"']").bootstrapSwitch('state', false);
-                            $("[name='"+gpilist[i].name+"']").bootstrapSwitch('disabled',true);
+                            $('.gpi-container').append('<input type="checkbox" name="'+gpilist[i].name+'" lay-skin="switch" lay-text="ON|OFF" disabled>');
                         }
                     }
+
+                    for (var i = 0; i < gpolist.length; i++) {
+                        var gpoName = gpolist[i].name;
+                        if (gpolist[i].value == 1) {
+                            $('.gpo-container').append('<input type="checkbox" name="'+gpolist[i].name+'" lay-skin="switch" lay-text="ON|OFF" checked >');
+                        } else {
+                            $('.gpo-container').append('<input type="checkbox" name="'+gpolist[i].name+'" lay-skin="switch" lay-text="ON|OFF"  >');
+                        }
+                    }
+                    form.render();
                 }
+            }
+        })
+    }
+
+    // 3s动态更新GPI数据
+    function _updateGpi (opts) {
+        setInterval(function () {
+
+             $.ajax({
+                dataType: 'json',
+                type: 'post',
+                url: opts.updateGpiUrl,
+                data: {}
+            }).done(function (data, textStatus, request) {
+                if (data.error_code === 0) {
+                    var gpilist = data;
+                    for (var i = 0; i < gpilist.length; i++) {
+                        if (gpilist[i].value == 1) {
+                            $("[name='"+gpilist[i].name+"']").attr('checked', 'checked');
+                        } else {
+                            $("[name='"+gpilist[i].name+"']").removeAttr('checked');
+                        }
+                    }
+                    form.render();
+                } else {
+                    layer.msg(err.message, {icon: 2, time: 1000}, function () {});
+                }
+            }).fail(function (XMLHttpRequest, status, info) {
+                if (layer) {
+                    layer.close(index);
+                }
+                opts.done({
+                    code: -999,
+                    msg: 'ajax请求出错或网络错误'
+                });
             });
         },3000)
     }
 
     // 更改GPO数据
-    function _updateGpo (name,value) {
+    function _updateGpo (name,value,opts) {
         var params = {
-            name: name,
-            value: value
+            portNum: name,
+            gpoNum: value
         }
-        $.ajax({
-            url: 'http://127.0.0.1:8000/update/gpo',
-            type: 'POST',
-            dataType: 'json',
+
+        ajax({
+            url: opts.updateGpoUrl,
             data: params,
-            complete: function (data) {
-                alert('success');
+            type: 'get',
+            done: function (err, data, res) {
+                if (err) {
+                    layer.msg(err.msg, {icon: 2, time: 1000}, function () {
+                        if (value == 0) {
+                            console.log(111);
+                            $('[name="'+name+'"]').attr('checked', 'checked');
+                        } else {
+                            $('[name="'+name+'"]').removeAttr('checked');
+                        }
+                        form.render();
+                    });
+                } else {
+                    layer.msg('ok', {icon:1, time:1000})
+                }
             }
-        }); 
+        })
     }
 
     win.demo = {
         index: {
             init: function (opts) {
-                _initData();
-                _updateGpi();
+                _initForm();
+                _bindEvent(opts);
+                _initData(opts);
+                _updateGpi(opts);
             }
         }
     }
