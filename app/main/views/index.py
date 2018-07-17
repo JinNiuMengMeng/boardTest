@@ -156,4 +156,6 @@ def update_gpo():
 @auth.route('/reboot', methods=["GET", "POST"])
 @admin_login_req
 def reboot():
-    pass
+    session.pop("admin", None)
+    os.system('reboot')
+    return redirect(url_for('auth.index'))
