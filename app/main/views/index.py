@@ -8,8 +8,8 @@ import ctypes
 from constants.errorCode import EC_GETGPI, EC_INIT, EC_SETGPO, EC_ARGS
 import os
 
-from constants.testPygpio import pygpio
-# pygpio = ctypes.cdll.LoadLibrary("/home/root/libgpio.so")
+# from constants.testPygpio import pygpio
+pygpio = ctypes.cdll.LoadLibrary("/home/root/libgpio.so")
 
 selected = lambda x: 1 if x else 0
 
@@ -37,11 +37,9 @@ def index():
 
 @auth.route('/login', methods=["GET", "POST"])
 def login():
-    session.pop("admin", None)
     form = LoginForm()
     if request.method == "POST" and form.validate_on_submit():
         if form.userName.data == "root" and check_password_hash(generate_password_hash(form.password.data), "root"):
-            flash("登录成功")
             session["admin"] = form.userName.data
             return redirect(request.args.get("next") or url_for("auth.index"))
         else:
@@ -50,9 +48,10 @@ def login():
 
 
 @auth.route('/logout')
-@admin_login_req
+# @admin_login_req
 def logout():
     session.pop("admin", None)
+    session.clear()
     flash('您已退出')
     return redirect(url_for('auth.index'))
 
@@ -157,5 +156,7 @@ def update_gpo():
 @admin_login_req
 def reboot():
     session.pop("admin", None)
+    session.clear()
     os.system('reboot')
-    return redirect(url_for('auth.index'))
+    return jsonify({"success": True, "error_code": 0, "message": '', "data": ''})
+
