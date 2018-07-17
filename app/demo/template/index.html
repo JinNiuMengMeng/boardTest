@@ -9,7 +9,6 @@
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css') }}">
 </head>
 <body>
-
 	<div class="layui-container">
 		<form class="layui-form" action="">
 			<div class="layui-row page-container">
@@ -44,9 +43,13 @@
 			{#updateGpiUrl: 'http://127.0.0.1:8000/get/gpi/data',#}
 			{#updateGpoUrl: 'http://127.0.0.1:8000/update/gpo',#}
 
-            initUrl: 'http://192.168.50.6:8000/init',
-			updateGpiUrl: 'http://192.168.50.6:8000/get/gpi/data',
-			updateGpoUrl: 'http://192.168.50.6:8000/update/gpo',
+			initUrl: 'http://192.168.40.231:8000/init',
+			updateGpiUrl: 'http://192.168.40.231:8000/get/gpi/data',
+			updateGpoUrl: 'http://192.168.40.231:8000/update/gpo',
+
+            {#initUrl: 'http://192.168.50.6:8000/init',#}
+			{#updateGpiUrl: 'http://192.168.50.6:8000/get/gpi/data',#}
+			{#updateGpoUrl: 'http://192.168.50.6:8000/update/gpo',#}
 		})
 
 	</script>

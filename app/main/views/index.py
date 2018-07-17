@@ -7,9 +7,9 @@ from functools import wraps
 import ctypes
 from constants.errorCode import EC_GETGPI, EC_INIT, EC_SETGPO, EC_ARGS
 import os
-from constants.testPygpio import pygpio
+# from constants.testPygpio import pygpio
 
-# pygpio = ctypes.cdll.LoadLibrary("/home/root/libgpio.so")
+pygpio = ctypes.cdll.LoadLibrary("/home/root/libgpio.so")
 
 selected = lambda x: 1 if x else 0
 
@@ -30,7 +30,7 @@ def before_request():
 
 
 @auth.route('/', methods=["GET", "POST"])
-# @admin_login_req
+@admin_login_req
 def index():
     return render_template("index.html")
 
@@ -50,7 +50,7 @@ def login():
 
 
 @auth.route('/logout')
-# @admin_login_req
+@admin_login_req
 def logout():
     session.pop("admin", None)
     flash('您已退出')
@@ -58,13 +58,13 @@ def logout():
 
 
 @auth.route('/change_password')
-# @admin_login_req
+@admin_login_req
 def change_password():
     return redirect(url_for('auth.index'))
 
 
 @auth.route('/get/gpi/data', methods=["GET", "POST"])
-# @admin_login_req
+@admin_login_req
 def get_gpi_data():
     port_values = []
     for i in range(0, 8):
@@ -88,7 +88,7 @@ def get_gpi_data():
 
 
 @auth.route('/init', methods=["GET", "POST"])
-# @admin_login_req
+@admin_login_req
 def get_init_data():
     if pygpio.gpio_init() == 0:
         port_values = []
@@ -120,7 +120,7 @@ def get_init_data():
 
 
 @auth.route('/update/gpo', methods=["GET", "POST"])
-# @admin_login_req
+@admin_login_req
 def update_gpo():
     gpoNum = request.args.get("gpoNum")
     portNum = request.args.get("portNum")
@@ -154,6 +154,6 @@ def update_gpo():
 
 
 @auth.route('/reboot', methods=["GET", "POST"])
-# @admin_login_req
+@admin_login_req
 def reboot():
     pass
