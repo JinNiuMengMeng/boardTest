@@ -64,16 +64,16 @@
                 type: 'post',
                 url: opts.updateGpiUrl,
                 data: {}
-            }).done(function (data, textStatus, request) {
+            }).done(function (data) {
                 if (data.error_code === 0) {
-                    var gpilist = data;
+                    var gpilist = data.data.gpilist;
                     for (var i = 0; i < gpilist.length; i++) {
                         if (gpilist[i].value == 1) {
                             $("[name='"+gpilist[i].name+"']").prop('checked', 'checked');
                         } else {
                             $("[name='"+gpilist[i].name+"']").prop('checked', false);
                         }
-                        form.render(gpilist[i].name);
+                        form.render();
                     }
                 } else {
                     layer.msg(err.message, {icon: 2, time: 1000}, function () {});

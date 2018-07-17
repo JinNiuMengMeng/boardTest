@@ -25,6 +25,7 @@
             ajax({
                 url: opts.loginUrl,
                 data: params,
+                type: 'post',
                 done: function (err, data, res) {
                     if (err) {
                         layer.msg(err.msg, {icon: 2, time: 1000}, function () {
